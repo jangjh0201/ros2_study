@@ -1,0 +1,25 @@
+# 빌드 디렉토리
+build/
+install/
+log/
+colcon/
+
+# ROS 2 빌드 아티팩트
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# 특정 IDE 설정 파일
+.vscode/
+.idea/
+*.swp
+
+# 기타
+*.log
+*.bak
+*.tmp
+*.cache
+*.dist
+*.egg-info/
+dist/
