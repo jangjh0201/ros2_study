@@ -20,9 +20,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'ImagePublisher = node_system.ImagePublisher:main',
-            'Client = node_system.Client:main',
-            'Server = node_system.Server:main',
+            'VideoNode = node_system.VideoNode:main',
+            'Client = node_system.ClientNode:main',
+            'Server = node_system.ServerNode:main',
         ],
     },
 )

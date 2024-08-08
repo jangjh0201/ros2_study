@@ -7,9 +7,7 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import cv2
 
-bridge = CvBridge()
-
-class ImagePublisher(Node):
+class VideoNode(Node):
     def __init__(self):
             super().__init__('image_publisher')
 
@@ -47,7 +45,7 @@ class ImagePublisher(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    image_publisher = ImagePublisher()
+    image_publisher = VideoNode()
 
     try:
         rclpy.spin(image_publisher)
