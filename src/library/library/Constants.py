@@ -6,3 +6,5 @@ class Constants:
     FOUR = 4
     TIMER_PERIOD = 0.1
     QOS_DEFAULT = 20
+    VIDEO = 'VideoNode'
+    PROXY = 'ProxyNode'
