@@ -4,55 +4,55 @@ from rclpy.node import Node
 from rclpy.qos import QoSProfile
 from library.Constants import Constants
 from sensor_msgs.msg import Image
-from cv_bridge import CvBridge
+from node_system.Video import Video
 import cv2
 
 class VideoNode(Node):
     def __init__(self):
-            super().__init__('image_publisher')
+            super().__init__(Constants.VIDEO)
+
+            # 카메라 연결
+            self.video = Video()
+            self.video.open()
 
             # 로거 설정
             qos_profile = QoSProfile(depth=Constants.QOS_DEFAULT)
 
-            # 이미지 정보 송신
-            self.pub = self.create_publisher(Image, 'image', qos_profile=qos_profile)
+            # 비디오 Topic 송신
+            self.publisher = self.create_publisher(Image, 'video', qos_profile=qos_profile)
             
-            # 이미지 토픽 타이머 변수
+            # 비디오 Topic 타이머 변수
             self.timer = self.create_timer(timer_period_sec=Constants.TIMER_PERIOD, callback=self.timer_execute)
 
-            # 카메라 연결
-            self.cam = cv2.VideoCapture(0)
-            if not self.cam.isOpened():
-                self.get_logger().error('Failed to open camera')
-                exit(1)
 
     def timer_execute(self):
         try:
-            success, frame = self.cam.read()
-            if success:
-                img_msg = bridge.cv2_to_imgmsg(frame, encoding='bgr8')
-                self.pub.publish(img_msg)
-                # cv2.imshow('Camera Frame', frame)
-                cv2.waitKey(1)
-            self.get_logger().info('Publishing Camera Image')
-        except Exception as e:
-            self.get_logger().error(f"An error occurred: {e}")
+            img_msg = self.video.get_video()
+            self.get_logger().info(f'Publishing Video')
+            
+            self.publisher.publish(img_msg)
+            
+        except Exception as error:
+            self.get_logger().error(f"An error occurred: {error}")
 
     def destroy(self):
-        self.cam.release()
-        cv2.destroyAllWindows()
+        try:
+            self.video.close()
+        except Exception as error:
+            self.get_logger().error(f"An error occurred: {error}")
+
         super().destroy_node()
 
 def main(args=None):
     rclpy.init(args=args)
-    image_publisher = VideoNode()
+    video_node = VideoNode()
 
     try:
-        rclpy.spin(image_publisher)
+        rclpy.spin(video_node)
     except KeyboardInterrupt:
-        image_publisher.get_logger().info('Publish Stopped : Keyboard Interrupt (SIGINT)')
+        video_node.get_logger().info('Publish Stopped : Keyboard Interrupt (SIGINT)')
     finally:
-        image_publisher.destroy()
+        video_node.destroy()
         rclpy.shutdown()
 
 if __name__ == '__main__':
