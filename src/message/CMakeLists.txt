@@ -19,7 +19,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   # Message
   
   # Service
-  srv/AddTwoInts.srv
+  srv/CameraImage.srv
 )
 
 if(BUILD_TESTING)
