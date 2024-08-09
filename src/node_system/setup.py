@@ -21,7 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'VideoNode = node_system.VideoNode:main',
-            'Client = node_system.ClientNode:main',
+            'Proxy = node_system.ProxyNode:main',
             'Server = node_system.ServerNode:main',
         ],
     },
