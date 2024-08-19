@@ -23,6 +23,7 @@ setup(
             'VideoNode = node_system.VideoNode:main',
             'Proxy = node_system.ProxyNode:main',
             'Server = node_system.ServerNode:main',
+            'camera_node = node_system.camera_node:main',
         ],
     },
 )
